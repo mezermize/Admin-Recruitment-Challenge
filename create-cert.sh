@@ -25,3 +25,4 @@ openssl pkcs12 -export -in tomcat-cert.pem -inkey tomcat-key.pem -out tomcat.p12
 
 # Convert the PKCS12 keystore to a Java keystore
 keytool -importkeystore -deststorepass xpandit -destkeypass xpandit -destkeystore keystore.jks -srckeystore tomcat.p12 -srcstoretype PKCS12 -srcstorepass xpandit -alias tomcat
+
