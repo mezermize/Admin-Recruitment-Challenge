@@ -2,7 +2,33 @@
 FROM centos:7
 
 # Replace CentOS repository configuration
-COPY CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
+RUN cat <<EOL > /etc/yum.repos.d/CentOS-Base.repo
+[base]
+name=CentOS-\$releasever - Base
+baseurl=http://vault.centos.org/7.9.2009/os/\$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+
+[updates]
+name=CentOS-\$releasever - Updates
+baseurl=http://vault.centos.org/7.9.2009/updates/\$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+
+[extras]
+name=CentOS-\$releasever - Extras
+baseurl=http://vault.centos.org/7.9.2009/extras/\$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+
+[centosplus]
+name=CentOS-\$releasever - Plus
+baseurl=http://vault.centos.org/7.9.2009/centosplus/\$basearch/
+gpgcheck=1
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+EOL
+
 
 # Install necessary packages, including `which` for debugging
 RUN yum install -y java-1.8.0-openjdk wget which
@@ -28,13 +54,6 @@ RUN ls -la $CATALINA_HOME/bin/catalina.sh
 # Copy SSL certificates and keystore
 COPY ssl/keystore.jks $CATALINA_HOME/conf/
 
-# Update Tomcat configuration for SSL
-#RUN sed -i 's/port="8443"/port="4041"/' $CATALINA_HOME/conf/server.xml \
-   # && sed -i 's/keystoreFile=".*"/keystoreFile="\/usr\/local\/tomcat\/conf\/keystore.jks"/' $CATALINA_HOME/conf/server.xml \
-  #  && sed -i 's/keystorePass=".*"/keystorePass="changeit"/' $CATALINA_HOME/conf/server.xml \
- #   && sed -i 's/clientAuth="false"/clientAuth="false"/' $CATALINA_HOME/conf/server.xml \
-#    && sed -i 's/sslProtocol="TLS"/sslProtocol="TLS"/' $CATALINA_HOME/conf/server.xml
-    
     
 # Update Tomcat configuration for SSL
 RUN sed -i '/<\/Service>/i \
@@ -42,10 +61,7 @@ RUN sed -i '/<\/Service>/i \
              maxThreads="150" SSLEnabled="true" scheme="https" secure="true" \
              clientAuth="false" sslProtocol="TLS" \
              keystoreFile="${catalina.base}/conf/keystore.jks" \
-             keystorePass="changeit" />' $CATALINA_HOME/conf/server.xml
-    
-    
-    
+             keystorePass="changeit" />' $CATALINA_HOME/conf/server.xml    
     
 
 # Download sample web app and deploy

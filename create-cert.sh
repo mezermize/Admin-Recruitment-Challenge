@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Create a directory for SSL files
+rm -rf ssl
 mkdir -p ssl
 cd ssl
 
