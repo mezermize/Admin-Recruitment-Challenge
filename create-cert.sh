@@ -21,7 +21,7 @@ openssl req -new -key tomcat-key.pem -out tomcat.csr -subj "/C=US/ST=State/L=Cit
 openssl x509 -req -in tomcat.csr -CA ca-cert.pem -CAkey ca-key.pem -CAcreateserial -out tomcat-cert.pem -days 500 -sha256
 
 # Create a PKCS12 keystore from the Tomcat private key and certificate
-openssl pkcs12 -export -in tomcat-cert.pem -inkey tomcat-key.pem -out tomcat.p12 -name tomcat -CAfile ca-cert.pem -caname root -password pass:changeit
+openssl pkcs12 -export -in tomcat-cert.pem -inkey tomcat-key.pem -out tomcat.p12 -name tomcat -CAfile ca-cert.pem -caname root -password pass:xpandit
 
 # Convert the PKCS12 keystore to a Java keystore
-keytool -importkeystore -deststorepass changeit -destkeypass changeit -destkeystore keystore.jks -srckeystore tomcat.p12 -srcstoretype PKCS12 -srcstorepass changeit -alias tomcat
+keytool -importkeystore -deststorepass xpandit -destkeypass xpandit -destkeystore keystore.jks -srckeystore tomcat.p12 -srcstoretype PKCS12 -srcstorepass xpandit -alias tomcat
