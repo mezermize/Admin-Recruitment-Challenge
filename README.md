@@ -18,8 +18,7 @@ This guide provides step-by-step instructions to build and run a Docker containe
 - In the project directory enter the command: ``docker build -t <docker_name> .``
 
 ### 4. Run docker container
-- In terminal enter the command:
-- ``docker run -d -p 4001:4001 <docker_name>``
+- In terminal enter the command: ``docker run -d -p 4001:4001 <docker_name>``
 
 ### 5. Check if the container was created
   In terminal enter the command: ``docker ps``
