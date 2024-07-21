@@ -61,7 +61,7 @@ RUN sed -i '/<\/Service>/i \
              maxThreads="150" SSLEnabled="true" scheme="https" secure="true" \
              clientAuth="false" sslProtocol="TLS" \
              keystoreFile="${catalina.base}/conf/keystore.jks" \
-             keystorePass="expandit" />' $CATALINA_HOME/conf/server.xml    
+             keystorePass="xpandit" />' $CATALINA_HOME/conf/server.xml    
     
 
 # Download sample web app and deploy
